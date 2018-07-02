@@ -1,9 +1,9 @@
+import learn.chapter12.game_functions as gf
 import pygame
-from pygame.sprite import Group
-
 from learn.chapter12.settings import Settings
 from learn.chapter12.ship import Ship
-import learn.chapter12.game_functions as gf
+from pygame.sprite import Group
+
 
 def run_game():
     # Initialize pygame, settings, and screen object.

@@ -11,6 +11,7 @@ else:
     from urllib import urlretrieve
 import gzip
 import os
+
 import numpy
 
 SOURCE_URL = 'http://yann.lecun.com/exdb/mnist/'
@@ -31,7 +32,7 @@ def maybe_download(filename, work_directory):
 def _read32(bytestream):
     dt = numpy.dtype(numpy.uint32).newbyteorder('>')
     return numpy.frombuffer(bytestream.read(4), dtype=dt)[0]# python3.6
-    # return numpy.frombuffer(bytestream.read(4), dtype=dt)# 2.7版本
+    # return numpy.frombuffer(bytestream.read(4), dtype=dt)#python 2.7
 
 
 def extract_images(filename):
