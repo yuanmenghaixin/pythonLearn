@@ -1,0 +1,10 @@
+配置pip3环境变量
+安装 TensorFlow
+pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade tensorflow
+
+要安装 TensorFlow，请启动终端。然后在该终端中发出正确的 pip3 install 命令。要安装仅支持 CPU 的 TensorFlow 版本，请输入以下命令：
+
+C:\> pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade tensorflow
+要安装 GPU 版本的 TensorFlow，请输入以下命令：
+
+C:\> pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade tensorflow-gpu

@@ -11,4 +11,9 @@ pip install pygame-1.9.3-cp36-cp36m-win32.whl
 import pygame
 pygame.ver
 测试是否安装成功 --出现小游戏执行以下命令
-py -m pygame.examples.aliens                
+py -m pygame.examples.aliens
+
+
+
+pip升级软件例子:
+python -m pip install --upgrade pip
