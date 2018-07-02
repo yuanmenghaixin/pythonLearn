@@ -4,7 +4,7 @@ import tensorflow as tf
 # 加到默认图中.
 #
 # 构造器的返回值代表该常量 op 的返回值.
-matrix1 = tf.constant([[3., 3.]])
+matrix1 = tf.constant([[1., 3.]])
 
 # 创建另外一个常量 op, 产生一个 2x1 矩阵.
 matrix2 = tf.constant([[2.],[2.]])
@@ -28,6 +28,6 @@ sess = tf.Session()
 # 返回值 'result' 是一个 numpy `ndarray` 对象.
 result = sess.run(product)
 print(result)
-# ==> [[ 12.]]
+# ==> [[ 8.]]
 # 任务完成, 关闭会话.
 sess.close()
