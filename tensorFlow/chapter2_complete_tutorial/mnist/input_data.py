@@ -2,7 +2,7 @@
 from __future__ import print_function
 import sys
 
-if sys.version_info[0] >= 3:
+if sys.version_info[0] >= 3:#判断python版本
     from urllib.request import urlretrieve
 else:
     # Not Python 3 - today, it is most likely to be Python 2
