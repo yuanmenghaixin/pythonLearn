@@ -16,7 +16,7 @@ def replacement(match):
         return str(eval(code, scope))
     except SyntaxError:
         # Otherwise, execute the assignment in the same scope ...
-        exec code in scope
+        exec (code in scope)
         # ... and return an empty string:
         return ''
 
