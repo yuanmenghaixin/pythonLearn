@@ -3,6 +3,7 @@
 from functools import reduce
 
 
+# 感知器
 class Perceptron(object):
     def __init__(self, input_num, activator):
         '''
@@ -21,7 +22,6 @@ class Perceptron(object):
         '''
         return 'weights\t:%s\nbias\t:%f\n' % (self.weights, self.bias)
 
-    
     def predict(self, input_vec):
         '''
         输入向量，输出感知器的计算结果
@@ -31,11 +31,8 @@ class Perceptron(object):
         # 然后利用map函数计算[x1*w1, x2*w2, x3*w3]
         # 最后利用reduce求和
         return self.activator(
-            reduce(lambda a, b: a + b,
-                   map(lambda x_w: x_w[0] * x_w[1],
-                       zip(input_vec, self.weights))
-                , 0.0) + self.bias)
- 
+            reduce(lambda a, b: a + b, map(lambda x_w: x_w[0] * x_w[1], zip(input_vec, self.weights)), 0.0) + self.bias)
+
     def train(self, input_vecs, labels, iteration, rate):
         '''
         输入训练数据：一组向量、与每个向量对应的label；以及训练轮数、学习率
@@ -65,8 +62,7 @@ class Perceptron(object):
         # 变成[(x1,w1),(x2,w2),(x3,w3),...]
         # 然后利用感知器规则更新权重
         delta = label - output
-        self.weights = map(lambda x_w: x_w[1] + rate * delta * x_w[0],
-            zip(input_vec, self.weights))
+        self.weights = map(lambda x_w: x_w[1] + rate * delta * x_w[0], zip(input_vec, self.weights))
         # 更新bias
         self.bias += rate * delta
 
@@ -84,11 +80,11 @@ def get_training_dataset():
     '''
     # 构建训练数据
     # 输入向量列表
-    input_vecs = [[1,1], [0,0], [1,0], [0,1]]
+    input_vecs = [[1, 1], [0, 0], [1, 0], [0, 1]]
     # 期望的输出列表，注意要与输入一一对应
     # [1,1] -> 1, [0,0] -> 0, [1,0] -> 0, [0,1] -> 0
     labels = [1, 0, 0, 0]
-    return input_vecs, labels    
+    return input_vecs, labels
 
 
 def train_and_perceptron():
@@ -100,19 +96,17 @@ def train_and_perceptron():
     # 训练，迭代10轮, 学习速率为0.1
     input_vecs, labels = get_training_dataset()
     p.train(input_vecs, labels, 10, 0.1)
-    #返回训练好的感知器
+    # 返回训练好的感知器
     return p
 
 
-if __name__ == '__main__': 
+if __name__ == '__main__':
     # 训练and感知器
     and_perception = train_and_perceptron()
     # 打印训练获得的权重
-    print( and_perception)
+    print(and_perception)
     # 测试
     print('1 and 1 = %d' % and_perception.predict([1, 1]))
-    print( '0 and 0 = %d' % and_perception.predict([0, 0]))
-    print( '1 and 0 = %d' % and_perception.predict([1, 0]))
-    print( '0 and 1 = %d' % and_perception.predict([0, 1]))
-
-
+    print('0 and 0 = %d' % and_perception.predict([0, 0]))
+    print('1 and 0 = %d' % and_perception.predict([1, 0]))
+    print('0 and 1 = %d' % and_perception.predict([0, 1]))
