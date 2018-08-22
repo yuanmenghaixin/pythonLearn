@@ -1,6 +1,6 @@
-from socketserver import TCPServer, ThreadingMixIn, StreamRequestHandler
+from socketserver import TCPServer, ForkingMixIn, StreamRequestHandler
 
-class Server(ThreadingMixIn, TCPServer): pass
+class Server(ForkingMixIn, TCPServer): pass #分叉服务器（）windows不支持分叉
 
 class Handler(StreamRequestHandler):
 
