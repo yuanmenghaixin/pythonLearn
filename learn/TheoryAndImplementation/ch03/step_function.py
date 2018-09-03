@@ -8,6 +8,8 @@ def step_function(x):
 
 X = np.arange(-5.0, 5.0, 0.1)
 Y = step_function(X)
+print(X)
+print(Y)
 plt.plot(X, Y)
 plt.ylim(-0.1, 1.1)  # 指定图中绘制的y轴的范围
 plt.show()

@@ -8,6 +8,8 @@ def sigmoid(x):
 
 X = np.arange(-5.0, 5.0, 0.1)
 Y = sigmoid(X)
+print(X)
+print(Y)
 plt.plot(X, Y)
 plt.ylim(-0.1, 1.1)
 plt.show()
