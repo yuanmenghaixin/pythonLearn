@@ -28,7 +28,7 @@ img_size = 784
 
 
 def _download(file_name):
-    file_path = dataset_dir + "/" + file_name
+    file_path = dataset_dir + "\\" + file_name
     
     if os.path.exists(file_path):
         return
@@ -42,7 +42,7 @@ def download_mnist():
        _download(v)
         
 def _load_label(file_name):
-    file_path = dataset_dir + "/" + file_name
+    file_path = dataset_dir + "\\" + file_name
     
     print("Converting " + file_name + " to NumPy Array ...")
     with gzip.open(file_path, 'rb') as f:
@@ -52,7 +52,7 @@ def _load_label(file_name):
     return labels
 
 def _load_img(file_name):
-    file_path = dataset_dir + "/" + file_name
+    file_path = dataset_dir + "\\" + file_name
     
     print("Converting " + file_name + " to NumPy Array ...")    
     with gzip.open(file_path, 'rb') as f:
