@@ -20,6 +20,21 @@ plt.ylim(-0.1, 1.1) #指定图中绘制的y轴的范围
 plt.show()
 
 
+#矩阵乘法
+A = np.array([[1,2], [3,4]])
+B = np.array([[5,6], [7,8]])
+print(A.shape)
+print(B.shape)
+print("矩阵乘机dot：")
+print(np.dot(A, B))
+
+A = np.array([[1,2,3], [4,5,6]])
+B = np.array([[1,2], [3,4], [5,6]])
+print(A.shape)
+print(B.shape)
+print("矩阵乘机dot：")
+print(np.dot(A, B))
+##上个矩阵计算结果解析：
 #A矩阵
 # 1,2,3
 # 4,5,6
