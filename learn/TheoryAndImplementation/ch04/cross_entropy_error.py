@@ -4,6 +4,8 @@ import numpy as np
 # 的-inf，这样一来就会导致后续计算无法进行。作为保护性对策，添加一个
 # 微小值可以防止负无限大的发生。下面，我们使用cross_entropy_error(y, t)
 # 进行一些简单的计算。
+
+####交叉熵
 def cross_entropy_error(y, t):
     delta = 1e-7
     return -np.sum(t * np.log(y + delta))
