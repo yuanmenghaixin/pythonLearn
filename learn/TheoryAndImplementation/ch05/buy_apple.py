@@ -1,10 +1,9 @@
 # coding: utf-8
-from layer_naive import *
+from layer_naive import MulLayer
 
-
-apple = 100
-apple_num = 2
-tax = 1.1
+apple = 100 #苹果价格
+apple_num = 2 #苹果个数
+tax = 1.1# 税率
 
 mul_apple_layer = MulLayer()
 mul_tax_layer = MulLayer()
