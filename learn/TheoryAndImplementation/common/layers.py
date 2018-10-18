@@ -3,7 +3,7 @@ import numpy as np
 from common.functions import *
 from common.util import im2col, col2im
 
-
+#rule 层
 class Relu:
     def __init__(self):
         self.mask = None

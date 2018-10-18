@@ -4,7 +4,7 @@ sys.path.append(os.pardir)  # 为了导入父目录的文件而进行的设定
 import numpy as np
 import matplotlib.pyplot as plt
 from collections import OrderedDict
-from common.optimizer import *
+from common.optimizer import SGD,Momentum,AdaGrad,Adam
 
 
 def f(x, y):
