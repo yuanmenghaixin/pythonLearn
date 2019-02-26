@@ -117,18 +117,18 @@ def run_training():
   """Train MNIST for a number of steps."""
   # Get the sets of images and labels for training, validation, and
   # test on MNIST.
-  data_sets = input_data.read_data_sets(FLAGS.input_data_dir, FLAGS.fake_data)
+  data_sets = input_data.read_data_sets(FLAGS.input_data_dir, FLAGS.fake_data) #120 行，准备训练、验证和测试数据集。这里TensorFlow 提供了内置模块可以直接操作下载MNIST datasets 数据集。
 
   # Tell TensorFlow that the model will be built into the default Graph.
-  with tf.Graph().as_default():
+  with tf.Graph().as_default():#123 行，使用默认图（ graph), TensorFlow 里使用图来表示计算任务，图中的节点被称为Op (operation ），一个Op 获取0 个或多个tensor 执行计算，并产生0 个或多个tensor 。
     # Generate placeholders for the images and labels.
     images_placeholder, labels_placeholder = placeholder_inputs(
-        FLAGS.batch_size)
+        FLAGS.batch_size)#125 ～ 126 行，创建图片和其对应的标签占位符，后面真正使用时会进行数据填充，这里预先告知数据的形状和类型。
 
     # Build a Graph that computes predictions from the inference model.
     logits = mnist.inference(images_placeholder,
                              FLAGS.hidden1,
-                             FLAGS.hidden2)
+                             FLAGS.hidden2) #129 ～ 140 行，创建网络Op, loss Op, gradients Op, evaluation Op 。
 
     # Add to the Graph the Ops for loss calculation.
     loss = mnist.loss(logits, labels_placeholder)
@@ -140,34 +140,34 @@ def run_training():
     eval_correct = mnist.evaluation(logits, labels_placeholder)
 
     # Build the summary Tensor based on the TF collection of Summaries.
-    summary = tf.summary.merge_all()
+    summary = tf.summary.merge_all() #143 行，合并所有的summa可Op 为一个Op 。Tensor Flow 里所有出现summa可代码的地方都是在创建summa可Op ，用来保存训练过程中你想要记录的数据。比如：
 
     # Add the variable initializer Op.
-    init = tf.global_variables_initializer()
+    init = tf.global_variables_initializer() #146 行，创建初始化变量Op 。
 
     # Create a saver for writing training checkpoints.
-    saver = tf.train.Saver()
+    saver = tf.train.Saver() #149 行，创建saver 来保存模型。
 
     # Create a session for running Ops on the Graph.
-    sess = tf.Session()
+    sess = tf.Session()#152 行，创建会话（ session ）上下文，图需要在会话中运行。
 
     # Instantiate a SummaryWriter to output summaries and the Graph.
-    summary_writer = tf.summary.FileWriter(FLAGS.log_dir, sess.graph)
+    summary_writer = tf.summary.FileWriter(FLAGS.log_dir, sess.graph)#155 行，创建summaηFileWriter ，把summaηOp 返回的数据写到磁盘。
 
     # And then after everything is built:
 
     # Run the Op to initialize the variables.
-    sess.run(init)
+    sess.run(init)#160 行，运行初始化所有变量，之前创建的Op 只是描述了数据是怎样流动或者怎么计算，没有真正开始执行运算，只有把Op 放入sess . run(Op）中才会开始运行。
 
     # Start the training loop.
-    for step in xrange(FLAGS.max_steps):
-      start_time = time.time()
+    for step in xrange(FLAGS.max_steps): #163 行，开始训练循环总共运行FLAGS.max_steps 个step 。
+      start_time = time.time() #164 行，记录每个step 的开始时间。
 
       # Fill a feed dictionary with the actual set of images and labels
       # for this particular training step.
       feed_dict = fill_feed_dict(data_sets.train,
                                  images_placeholder,
-                                 labels_placeholder)
+                                 labels_placeholder)#168 ～ 170 行，取一个batch 训练数据，使用真实数据填充图片和标签占位符。
 
       # Run one step of the model.  The return values are the activations
       # from the `train_op` (which is discarded) and the `loss` Op.  To
@@ -175,12 +175,12 @@ def run_training():
       # in the list passed to sess.run() and the value tensors will be
       # returned in the tuple from the call.
       _, loss_value = sess.run([train_op, loss],
-                               feed_dict=feed_dict)
+                               feed_dict=feed_dict) #177 ～ 178 行，把一个batch 数据放入模型进行训练，得到train_op （被忽略掉了）和loass op 的返回值，如果你想观察Op 或者变量的值，需要把它们放到列表里传给sess.run （），然后它们的值会以元组的形式返回。
 
-      duration = time.time() - start_time
+      duration = time.time() - start_time #180 行，计算运行一个step 花费的时间。
 
       # Write the summaries and print an overview fairly often.
-      if step % 100 == 0:
+      if step % 100 == 0: #183 ～ 189 行，每100 个step 把summa可信息写入磁盘一次。
         # Print status to stdout.
         print('Step %d: loss = %.2f (%.3f sec)' % (step, loss_value, duration))
         # Update the events file.
@@ -191,7 +191,7 @@ def run_training():
       # Save a checkpoint and evaluate the model periodically.
       if (step + 1) % 1000 == 0 or (step + 1) == FLAGS.max_steps:
         checkpoint_file = os.path.join(FLAGS.log_dir, 'model.ckpt')
-        saver.save(sess, checkpoint_file, global_step=step)
+        saver.save(sess, checkpoint_file, global_step=step) #192 ～ 215 行，每1000 个step 或者是最后一个step 保存一下模型，并且打印训练过程中产生的模型在训练、验证、测试数据集上的准确率。
         # Evaluate against the training set.
         print('Training Data Eval:')
         do_eval(sess,
@@ -215,14 +215,14 @@ def run_training():
                 data_sets.test)
 
 
-def main(_):
+def main(_): #218 ～ 222 行，启动TensorFlow 后首先调用main 函数，判断目录是否存在，存在就删除不存在就创建。最后开始训练MNIST 数据。
   if tf.gfile.Exists(FLAGS.log_dir):
     tf.gfile.DeleteRecursively(FLAGS.log_dir)
   tf.gfile.MakeDirs(FLAGS.log_dir)
   run_training()
 
 
-if __name__ == '__main__':
+if __name__ == '__main__': #225 ～ 277 行，解析命令行启动TensorFlow 。
   parser = argparse.ArgumentParser()
   parser.add_argument(
       '--learning_rate',
