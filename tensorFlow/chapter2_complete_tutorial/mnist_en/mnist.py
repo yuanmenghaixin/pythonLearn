@@ -35,14 +35,14 @@ import math
 import tensorflow as tf
 
 # The MNIST dataset has 10 classes, representing the digits 0 through 9.
-NUM_CLASSES = 10
+NUM_CLASSES = 10 #38 行， MNIST dataset 总共10 类， 0 ～ 9 手写数字图片。
 
 # The MNIST images are always 28x28 pixels.
-IMAGE_SIZE = 28
+IMAGE_SIZE = 28 #41 ～ 42 行， MNIST dataset 每张图片像素28 × 28 。
 IMAGE_PIXELS = IMAGE_SIZE * IMAGE_SIZE
 
 
-def inference(images, hidden1_units, hidden2_units):
+def inference(images, hidden1_units, hidden2_units): #45 ～ 83 行，构建网络。
   """Build the MNIST model up to where it may be used for inference.
 
   Args:
@@ -54,16 +54,16 @@ def inference(images, hidden1_units, hidden2_units):
     softmax_linear: Output tensor with the computed logits.
   """
   # Hidden 1
-  with tf.name_scope('hidden1'):
+  with tf.name_scope('hidden1'):#57 ～ 64 行，第一层隐藏层。 57 行，设置命名空间，不同的命名空间中变量名不冲突。
     weights = tf.Variable(
         tf.truncated_normal([IMAGE_PIXELS, hidden1_units],
                             stddev=1.0 / math.sqrt(float(IMAGE_PIXELS))),
-        name='weights')
+        name='weights') #58 ～ 61 行，创建变量和权重，使用截断正态分布进行初始化。
     biases = tf.Variable(tf.zeros([hidden1_units]),
-                         name='biases')
-    hidden1 = tf.nn.relu(tf.matmul(images, weights) + biases)
+                         name='biases')#62 ～ 63 行，创建变量和偏置，全部初始化为0 。
+    hidden1 = tf.nn.relu(tf.matmul(images, weights) + biases)#64 行（ax+b） 过激励函数relu 。这里w 就是权重， b 就是偏向， a 在第一层就是输入图片，不在第一层就是上一层的输出。
   # Hidden 2
-  with tf.name_scope('hidden2'):
+  with tf.name_scope('hidden2'): #66 ～ 73 行，第二层隐藏层。
     weights = tf.Variable(
         tf.truncated_normal([hidden1_units, hidden2_units],
                             stddev=1.0 / math.sqrt(float(hidden1_units))),
@@ -72,7 +72,7 @@ def inference(images, hidden1_units, hidden2_units):
                          name='biases')
     hidden2 = tf.nn.relu(tf.matmul(hidden1, weights) + biases)
   # Linear
-  with tf.name_scope('softmax_linear'):
+  with tf.name_scope('softmax_linear'): #75 ～ 82 行，线性层
     weights = tf.Variable(
         tf.truncated_normal([hidden2_units, NUM_CLASSES],
                             stddev=1.0 / math.sqrt(float(hidden2_units))),
@@ -83,7 +83,7 @@ def inference(images, hidden1_units, hidden2_units):
   return logits
 
 
-def loss(logits, labels):
+def loss(logits, labels): #86 ～ 99 行，创建loss Op 。
   """Calculates the loss from the logits and the labels.
 
   Args:
@@ -93,11 +93,13 @@ def loss(logits, labels):
   Returns:
     loss: Loss tensor of type float.
   """
-  labels = tf.to_int64(labels)
+  labels = tf.to_int64(labels) #96 行，类型转换。
+
   return tf.losses.sparse_softmax_cross_entropy(labels=labels, logits=logits)
 
 
-def training(loss, learning_rate):
+
+def training(loss, learning_rate):#120 行，记录loss 变化数值。
   """Sets up the training Ops.
 
   Creates a summarizer to track the loss over time in TensorBoard.
@@ -117,12 +119,12 @@ def training(loss, learning_rate):
   # Add a scalar summary for the snapshot loss.
   tf.summary.scalar('loss', loss)
   # Create the gradient descent optimizer with the given learning rate.
-  optimizer = tf.train.GradientDescentOptimizer(learning_rate)
+  optimizer = tf.train.GradientDescentOptimizer(learning_rate)#122 行，使用梯度下降优化器，传入学习率。
   # Create a variable to track the global step.
-  global_step = tf.Variable(0, name='global_step', trainable=False)
+  global_step = tf.Variable(0, name='global_step', trainable=False)#124 行，创建变量来记录全局步数。
   # Use the optimizer to apply the gradients that minimize the loss
   # (and also increment the global step counter) as a single training step.
-  train_op = optimizer.minimize(loss, global_step=global_step)
+  train_op = optimizer.minimize(loss, global_step=global_step)#127 行，使用优化器的目的是最小化loss 。
   return train_op
 
 
